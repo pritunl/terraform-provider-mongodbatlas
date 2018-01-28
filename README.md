@@ -1,6 +1,6 @@
 # terraform-provider-mongodbatlas
 
-Terraform MongoDB Atlas provider
+Terraform MongoDB Atlas provider. Groups and clusters must be deleted manually.
 
 ## example
 
