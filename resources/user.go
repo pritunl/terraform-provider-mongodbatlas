@@ -30,6 +30,7 @@ func User() *schema.Resource {
 			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"cluster_name": &schema.Schema{
 				Type:     schema.TypeString,
