@@ -30,6 +30,7 @@ func Cluster() *schema.Resource {
 			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"service_provider": &schema.Schema{
 				Type:     schema.TypeString,
