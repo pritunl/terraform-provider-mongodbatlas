@@ -5,6 +5,7 @@ import (
 )
 
 type User struct {
+	Id           string
 	GroupId      string
 	Name         string
 	ClusterName  string
@@ -15,6 +16,7 @@ type User struct {
 
 func LoadUser(d *schema.ResourceData) (sch *User) {
 	sch = &User{
+		Id:           d.Id(),
 		GroupId:      d.Get("group_id").(string),
 		Name:         d.Get("name").(string),
 		ClusterName:  d.Get("cluster_name").(string),

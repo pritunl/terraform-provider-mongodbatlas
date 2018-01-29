@@ -5,6 +5,7 @@ import (
 )
 
 type Peer struct {
+	Id           string
 	ContainerId  string
 	GroupId      string
 	AwsAccountId string
@@ -14,6 +15,7 @@ type Peer struct {
 
 func LoadPeer(d *schema.ResourceData) (sch *Peer) {
 	sch = &Peer{
+		Id:           d.Id(),
 		ContainerId:  d.Get("container_id").(string),
 		GroupId:      d.Get("group_id").(string),
 		AwsAccountId: d.Get("aws_account_id").(string),

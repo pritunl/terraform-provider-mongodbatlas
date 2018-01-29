@@ -5,6 +5,7 @@ import (
 )
 
 type Cluster struct {
+	Id                string
 	GroupId           string
 	Name              string
 	ServiceProvider   string
@@ -17,6 +18,7 @@ type Cluster struct {
 
 func LoadCluster(d *schema.ResourceData) (sch *Cluster) {
 	sch = &Cluster{
+		Id:                d.Id(),
 		GroupId:           d.Get("group_id").(string),
 		Name:              d.Get("name").(string),
 		ServiceProvider:   d.Get("service_provider").(string),
