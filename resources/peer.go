@@ -167,7 +167,7 @@ func peerFind(prvdr *schemas.Provider, pr *schemas.Peer) (
 	return
 }
 
-func peerGet(prvdr *schemas.Provider, pr *schemas.Peer, peerId string) (
+func peerGet(prvdr *schemas.Provider, pr *schemas.Peer) (
 	data *peerData, err error) {
 
 	req, err := http.NewRequest(
@@ -175,7 +175,7 @@ func peerGet(prvdr *schemas.Provider, pr *schemas.Peer, peerId string) (
 		constants.BaseUrl+fmt.Sprintf(
 			"/api/atlas/v1.0/groups/%s/peers/%s",
 			pr.GroupId,
-			peerId,
+			pr.Id,
 		),
 		nil,
 	)
@@ -304,7 +304,7 @@ func peerPost(prvdr *schemas.Provider, pr *schemas.Peer) (
 	return
 }
 
-func peerPut(prvdr *schemas.Provider, pr *schemas.Peer, peerId string) (
+func peerPut(prvdr *schemas.Provider, pr *schemas.Peer) (
 	data *peerData, err error) {
 
 	putData := peerPutData{
@@ -326,7 +326,7 @@ func peerPut(prvdr *schemas.Provider, pr *schemas.Peer, peerId string) (
 		constants.BaseUrl+fmt.Sprintf(
 			"/api/atlas/v1.0/groups/%s/peers/%s",
 			pr.GroupId,
-			peerId,
+			pr.Id,
 		),
 		bytes.NewBuffer(body),
 	)
@@ -379,7 +379,7 @@ func peerPut(prvdr *schemas.Provider, pr *schemas.Peer, peerId string) (
 	return
 }
 
-func peerDel(prvdr *schemas.Provider, pr *schemas.Peer, peerId string) (
+func peerDel(prvdr *schemas.Provider, pr *schemas.Peer) (
 	err error) {
 
 	req, err := http.NewRequest(
@@ -387,7 +387,7 @@ func peerDel(prvdr *schemas.Provider, pr *schemas.Peer, peerId string) (
 		constants.BaseUrl+fmt.Sprintf(
 			"/api/atlas/v1.0/groups/%s/peers/%s",
 			pr.GroupId,
-			peerId,
+			pr.Id,
 		),
 		nil,
 	)
@@ -448,10 +448,10 @@ func peerCreate(d *schema.ResourceData, m interface{}) (err error) {
 		}
 	}
 
-	peerId := prData.Id
+	pr.Id = prData.Id
 
 	for {
-		prData, err = peerGet(prvdr, pr, peerId)
+		prData, err = peerGet(prvdr, pr)
 		if err != nil {
 			return
 		}
@@ -478,10 +478,9 @@ func peerCreate(d *schema.ResourceData, m interface{}) (err error) {
 func peerRead(d *schema.ResourceData, m interface{}) (err error) {
 	prvdr := m.(*schemas.Provider)
 	pr := schemas.LoadPeer(d)
-	peerId := d.Id()
 
-	if peerId != "" {
-		prData, e := peerGet(prvdr, pr, peerId)
+	if pr.Id != "" {
+		prData, e := peerGet(prvdr, pr)
 		if e != nil {
 			err = e
 			return
@@ -508,10 +507,9 @@ func peerRead(d *schema.ResourceData, m interface{}) (err error) {
 func peerUpdate(d *schema.ResourceData, m interface{}) (err error) {
 	prvdr := m.(*schemas.Provider)
 	pr := schemas.LoadPeer(d)
-	peerId := d.Id()
 
-	if peerId != "" {
-		prData, e := peerPut(prvdr, pr, peerId)
+	if pr.Id != "" {
+		prData, e := peerPut(prvdr, pr)
 		if e != nil {
 			err = e
 			return
@@ -538,10 +536,9 @@ func peerUpdate(d *schema.ResourceData, m interface{}) (err error) {
 func peerDelete(d *schema.ResourceData, m interface{}) (err error) {
 	prvdr := m.(*schemas.Provider)
 	pr := schemas.LoadPeer(d)
-	peerId := d.Id()
 
-	if peerId != "" {
-		err = peerDel(prvdr, pr, peerId)
+	if pr.Id != "" {
+		err = peerDel(prvdr, pr)
 		if err != nil {
 			return
 		}
