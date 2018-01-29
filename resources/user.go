@@ -498,5 +498,13 @@ func userUpdate(d *schema.ResourceData, m interface{}) (err error) {
 }
 
 func userDelete(d *schema.ResourceData, m interface{}) (err error) {
+	prvdr := m.(*schemas.Provider)
+	usr := schemas.LoadUser(d)
+
+	err = userDel(prvdr, usr)
+	if err != nil {
+		return
+	}
+
 	return
 }
