@@ -12,7 +12,7 @@ provider "mongodbatlas" {
 }
 
 resource "mongodbatlas_group" "default" {
-  name = "pritunl-group"
+  name = "pritunl"
 }
 
 resource "mongodbatlas_cluster" "default" {
