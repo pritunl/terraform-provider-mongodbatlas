@@ -31,7 +31,7 @@ resource "mongodbatlas_user" "default" {
   password = "4799fd096f77409da554b2e0a13ed345"
 }
 
-resource "mongodbatlas_peer" "default" {
+resource "mongodbatlas_peer" "peer" {
   group_id = "${mongodbatlas_group.default.id}"
   container_id = "${mongodbatlas_cluster.default.container_id}"
   aws_account_id = "AWS_ACCOUNT_ID"
