@@ -43,6 +43,10 @@ func Peer() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"connection_id": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -65,6 +69,7 @@ type peerData struct {
 	Id                  string `json:"id"`
 	VpcId               string `json:"vpcId"`
 	AwsAccountId        string `json:"awsAccountId"`
+	ConnectionId        string `json:"connectionId"`
 	RouteTableCidrBlock string `json:"routeTableCidrBlock"`
 	ContainerId         string `json:"containerId"`
 	StatusName          string `json:"statusName"`
@@ -470,6 +475,7 @@ func peerCreate(d *schema.ResourceData, m interface{}) (err error) {
 		time.Sleep(1 * time.Second)
 	}
 
+	d.Set("connection_id", prData.ConnectionId)
 	d.SetId(prData.Id)
 
 	return
@@ -495,6 +501,7 @@ func peerRead(d *schema.ResourceData, m interface{}) (err error) {
 				d.SetId("")
 			}
 
+			d.Set("connection_id", prData.ConnectionId)
 			d.SetId(prData.Id)
 			return
 		}
@@ -524,6 +531,7 @@ func peerUpdate(d *schema.ResourceData, m interface{}) (err error) {
 				return
 			}
 
+			d.Set("connection_id", prData.ConnectionId)
 			d.SetId(prData.Id)
 			return
 		}
