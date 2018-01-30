@@ -38,4 +38,12 @@ resource "mongodbatlas_peer" "peer" {
   vpc_id = "vpc-ce4865a9"
   vpc_cidr = "10.150.0.0/16"
 }
+
+resource "aws_vpc_peering_connection_accepter" "peer" {
+  vpc_peering_connection_id = "${mongodbatlas_peer.peer.connection_id}"
+  auto_accept = true
+  tags {
+    Side = "Accepter"
+  }
+}
 ```
