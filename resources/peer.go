@@ -488,10 +488,11 @@ func peerRead(d *schema.ResourceData, m interface{}) (err error) {
 
 		if prData != nil {
 			if prData.Failed() {
-				err = &errortypes.RequestError{
-					errors.Wrap(err, "resources: Peer in failed state"),
+				err = peerDel(prvdr, pr)
+				if err != nil {
+					return
 				}
-				return
+				d.SetId("")
 			}
 
 			d.SetId(prData.Id)
