@@ -322,7 +322,7 @@ func userDel(prvdr *schemas.Provider, usr *schemas.User) (err error) {
 
 	if resp.StatusCode == 404 {
 		return
-	} else if resp.StatusCode != 200 {
+	} else if resp.StatusCode != 200 && resp.StatusCode != 202 {
 		respBodyStr := ""
 		respBody, _ := ioutil.ReadAll(resp.Body)
 		if respBody != nil {
