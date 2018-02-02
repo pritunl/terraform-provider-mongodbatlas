@@ -24,10 +24,11 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"mongodbatlas_group":   resources.Group(),
-			"mongodbatlas_cluster": resources.Cluster(),
-			"mongodbatlas_user":    resources.User(),
-			"mongodbatlas_peer":    resources.Peer(),
+			"mongodbatlas_group":     resources.Group(),
+			"mongodbatlas_cluster":   resources.Cluster(),
+			"mongodbatlas_user":      resources.User(),
+			"mongodbatlas_peer":      resources.Peer(),
+			"mongodbatlas_whitelist": resources.Whitelist(),
 		},
 	}
 }
