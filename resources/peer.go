@@ -25,6 +25,7 @@ func Peer() *schema.Resource {
 			"group_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"container_id": &schema.Schema{
 				Type:     schema.TypeString,

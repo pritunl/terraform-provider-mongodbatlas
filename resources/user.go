@@ -26,6 +26,7 @@ func User() *schema.Resource {
 			"group_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"name": &schema.Schema{
 				Type:     schema.TypeString,
