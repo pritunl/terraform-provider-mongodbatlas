@@ -31,6 +31,11 @@ resource "mongodbatlas_user" "default" {
   password = "4799fd096f77409da554b2e0a13ed345"
 }
 
+resource "mongodbatlas_whitelist" "peer" {
+  group_id = "${mongodbatlas_group.default.id}"
+  address = "10.150.0.0/16"
+}
+
 resource "mongodbatlas_peer" "peer" {
   group_id = "${mongodbatlas_group.default.id}"
   container_id = "${mongodbatlas_cluster.default.container_id}"
