@@ -450,24 +450,6 @@ func userRead(d *schema.ResourceData, m interface{}) (err error) {
 		return
 	}
 
-	for {
-		clstData, err = clusterGet(prvdr, usr.GroupId, usr.ClusterName)
-		if err != nil {
-			return
-		}
-
-		if clstData == nil {
-			err = errortypes.NotFoundError{
-				errors.New("resources: Cluster not found"),
-			}
-			return
-		} else if clstData.Available() {
-			break
-		}
-
-		time.Sleep(1 * time.Second)
-	}
-
 	uri, err := userUriParse(usr, clstData.MongoUriWithOptions)
 	if err != nil {
 		return
@@ -503,6 +485,24 @@ func userUpdate(d *schema.ResourceData, m interface{}) (err error) {
 	if usrData == nil {
 		d.SetId("")
 		return
+	}
+
+	for {
+		clstData, err = clusterGet(prvdr, usr.GroupId, usr.ClusterName)
+		if err != nil {
+			return
+		}
+
+		if clstData == nil {
+			err = errortypes.NotFoundError{
+				errors.New("resources: Cluster not found"),
+			}
+			return
+		} else if clstData.Available() {
+			break
+		}
+
+		time.Sleep(1 * time.Second)
 	}
 
 	uri, err := userUriParse(usr, clstData.MongoUriWithOptions)
