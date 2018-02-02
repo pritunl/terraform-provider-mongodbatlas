@@ -366,16 +366,23 @@ func userCreate(d *schema.ResourceData, m interface{}) (err error) {
 	prvdr := m.(*schemas.Provider)
 	usr := schemas.LoadUser(d)
 
-	clstData, err := clusterGet(prvdr, usr.GroupId, usr.ClusterName)
-	if err != nil {
-		return
-	}
-
-	if clstData == nil {
-		err = errortypes.NotFoundError{
-			errors.New("resources: Cluster not found"),
+	var clstData *clusterData
+	for {
+		clstData, err = clusterGet(prvdr, usr.GroupId, usr.ClusterName)
+		if err != nil {
+			return
 		}
-		return
+
+		if clstData == nil {
+			err = errortypes.NotFoundError{
+				errors.New("resources: Cluster not found"),
+			}
+			return
+		} else if clstData.Available() {
+			break
+		}
+
+		time.Sleep(1 * time.Second)
 	}
 
 	usrData, err := userGet(prvdr, usr)
@@ -465,16 +472,23 @@ func userUpdate(d *schema.ResourceData, m interface{}) (err error) {
 	prvdr := m.(*schemas.Provider)
 	usr := schemas.LoadUser(d)
 
-	clstData, err := clusterGet(prvdr, usr.GroupId, usr.ClusterName)
-	if err != nil {
-		return
-	}
-
-	if clstData == nil {
-		err = errortypes.NotFoundError{
-			errors.New("resources: Cluster not found"),
+	var clstData *clusterData
+	for {
+		clstData, err = clusterGet(prvdr, usr.GroupId, usr.ClusterName)
+		if err != nil {
+			return
 		}
-		return
+
+		if clstData == nil {
+			err = errortypes.NotFoundError{
+				errors.New("resources: Cluster not found"),
+			}
+			return
+		} else if clstData.Available() {
+			break
+		}
+
+		time.Sleep(1 * time.Second)
 	}
 
 	usrData, err := userPut(prvdr, usr)
