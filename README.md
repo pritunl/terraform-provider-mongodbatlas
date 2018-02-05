@@ -20,6 +20,7 @@ resource "mongodbatlas_cluster" "default" {
   name = "pritunl"
   region = "us-west-2"
   size = "m10"
+  replication_factor = 3
   disk_size_gb = 10
 }
 
